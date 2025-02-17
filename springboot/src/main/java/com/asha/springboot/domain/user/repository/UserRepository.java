@@ -1,7 +1,6 @@
 package com.asha.springboot.domain.user.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-
 import com.asha.springboot.domain.user.entity.UserEntity;
 
 /**
@@ -19,4 +18,12 @@ public interface UserRepository extends JpaRepository<UserEntity, Long> {
      * @return boolean
      */
     boolean existsByUsername(String username);
+
+    /**
+     * username으로 UserEntity 찾기
+     * 
+     * @param username
+     * @return
+     */
+    UserEntity findByUsername(String username);
 }
