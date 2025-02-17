@@ -22,7 +22,7 @@ public class UserTest {
     @Test
     void creatUser() {
 
-        UserSignUpDTO userSignUpDTO = new UserSignUpDTO("amdin", "admin", "test@test.com");
+        UserSignUpDTO userSignUpDTO = new UserSignUpDTO("amdin", "admin", "test@test.com", "admin");
 
         userController.signup(userSignUpDTO);
 
