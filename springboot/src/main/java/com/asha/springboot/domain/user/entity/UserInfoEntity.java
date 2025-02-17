@@ -9,12 +9,16 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 사용자 ID와 비밀번호 이외의 정보를 위한 엔티티
  */
 @Getter
+@ToString
 @Entity
+@NoArgsConstructor // 기본 생성자 추가
 public class UserInfoEntity {
 
     @Id // primary key(기본키) 설정
@@ -24,7 +28,7 @@ public class UserInfoEntity {
     @Column(name = "email", unique = true) // email은 unique(단일 조건)
     private String email;
 
-    @OneToOne // 1:1 양방향을 위해 UserEntity의 userEntity를 참조 (외래키)
+    @OneToOne // 1:1 단방향을 위해 UserEntity의 userEntity를 참조 (외래키)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 

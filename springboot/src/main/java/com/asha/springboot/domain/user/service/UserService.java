@@ -9,10 +9,10 @@ import com.asha.springboot.domain.user.dto.UserSignUpDTO;
 import com.asha.springboot.domain.user.entity.UserEntity;
 import com.asha.springboot.domain.user.exception.UserAlreadyExistsException;
 import com.asha.springboot.domain.user.repository.UserInfoRepository;
+import com.asha.springboot.domain.user.repository.UserNickNameRepository;
 import com.asha.springboot.domain.user.repository.UserRepository;
 
 import lombok.RequiredArgsConstructor;
-
 
 /**
  * 사용자 정보를 처리하는 서비스
@@ -24,6 +24,7 @@ public class UserService {
 
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
+    private final UserNickNameRepository userNickNameRepository;
     private final PasswordEncoder passwordEncoder;
 
     /**
@@ -65,6 +66,7 @@ public class UserService {
             // 사용자 정보를 DB에 저장
             userEntity = userRepository.save(userEntity);
             userInfoRepository.save(userSignUpDTO.toInfoEntity(userEntity));
+            userNickNameRepository.save(userSignUpDTO.toNickNameEntity(userEntity));
 
             return "success";
 
@@ -81,7 +83,5 @@ public class UserService {
             return "예상치 못한 오류가 생겼습니다. 잠시후 다시 시도하세요.";
         }
     }
-
-    
 
 }
