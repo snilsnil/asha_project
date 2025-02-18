@@ -33,6 +33,15 @@ public class UserTest {
 
     }
 
+    @Test
+    void creatUser2() {
+
+        UserSignUpDTO userSignUpDTO = new UserSignUpDTO("admin2", "admin2", "test2@test.com", "admin2");
+
+        userController.signup(userSignUpDTO);
+
+    }
+
     /**
      * 사용자 조회 테스트
      */

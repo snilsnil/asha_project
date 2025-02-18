@@ -1,5 +1,9 @@
 package com.asha.springboot.domain.product.repository;
 
-public interface BidRepository {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.asha.springboot.domain.product.entity.BidEntity;
+
+public interface BidRepository extends JpaRepository<BidEntity, Long> {
 
 }
