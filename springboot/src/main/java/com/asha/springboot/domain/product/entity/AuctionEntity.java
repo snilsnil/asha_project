@@ -15,23 +15,31 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 경매 정보 엔티티
+ */
 @Getter
-@ToString(exclude = {"product", "seller"}) // 무한 참조 방지
+@ToString
 @Entity
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class AuctionEntity {
 
     // 경매 ID
     @Id // 기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long auctionId; 
+    private Long auctionId;
 
     // 상품 ID , 외래키
-    @ManyToOne(fetch = FetchType.LAZY)
+    @OneToOne(fetch = FetchType.EAGER) // 즉시 로딩으로 설정
     @JoinColumn(name = "product_id")
     private ProductEntity product;
 
@@ -65,7 +73,7 @@ public class AuctionEntity {
     private AuctionStatus status;
 
     // 판매자 ID
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩으로 설정
     @JoinColumn(name = "seller_id")
-    private UserEntity seller;
+    private UserEntity sellerId;
 }

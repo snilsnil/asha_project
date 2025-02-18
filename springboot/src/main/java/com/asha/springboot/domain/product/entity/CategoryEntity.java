@@ -11,11 +11,14 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 카테고리 정보 엔티티
+ */
 @Getter
 @ToString
 @Entity
-@NoArgsConstructor // 기본 생성자 추가 (JPA 요구사항)
 @AllArgsConstructor // 모든 필드를 받는 생성자 추가 (빌더 패턴과 함께 사용)
+@NoArgsConstructor
 @Builder
 public class CategoryEntity {
 

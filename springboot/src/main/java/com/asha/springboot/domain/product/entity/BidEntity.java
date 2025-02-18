@@ -19,8 +19,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 입찰 정보 엔티티
+ */
 @Getter
-@ToString(exclude = {"auctionId", "user"}) // 무한 참조 방지
+@ToString
 @Entity
 @Builder
 @NoArgsConstructor // 기본 생성자 추가 (JPA에서 요구)
@@ -33,7 +36,7 @@ public class BidEntity {
     private Long bidId;
 
     // 경매 ID (외래키)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩 설정
     @JoinColumn(name = "auction_id")
     private AuctionEntity auctionId;
 
@@ -46,7 +49,7 @@ public class BidEntity {
     private LocalDateTime bidTime;
 
     // 입찰자 (사용자 ID)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩 설정
     @JoinColumn(name = "customer_id")
-    private UserEntity user;
+    private UserEntity customer;
 }
