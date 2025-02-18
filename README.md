@@ -12,15 +12,21 @@ Asha Project는 온라인 경매 관리 시스템을 위한 플랫폼으로, 사
 Backend:
 
 Spring Boot: 강력하고 확장 가능한 RESTful API 서버 구축
+
 JPA/Hibernate: 데이터베이스와의 객체 관계 매핑
+
 MySQL: 데이터 저장을 위한 관계형 데이터베이스
+
 Frontend:
 
 Next.js: React 기반의 서버 사이드 렌더링(SSR) 및 정적 사이트 생성(SSG) 기능 제공
+
 Gradle: 빌드 도구 및 의존성 관리
 
 빌더 패턴: 객체 생성을 유연하게 관리하기 위해 사용
+
 RESTful API: 클라이언트와 서버 간의 효율적인 데이터 전송을 위한 설계
+
 Spring Security: 인증 및 권한 관리
 
 ---
