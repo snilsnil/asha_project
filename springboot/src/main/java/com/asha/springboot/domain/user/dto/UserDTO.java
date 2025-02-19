@@ -2,8 +2,11 @@ package com.asha.springboot.domain.user.dto;
 
 import com.asha.springboot.domain.user.entity.UserEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * UserEnity와 상호작용하기 위한 DTO
@@ -14,6 +17,10 @@ import lombok.Getter;
  * @param role
  */
 @Getter
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserDTO {
     private Long userId;
     private String username;
@@ -28,13 +35,6 @@ public class UserDTO {
      * @param password
      * @param role
      */
-    @Builder // 생성자 대신 빌더 사용 (변경 가능성을 최소화) -> 생성자 패턴 중 빌더 패턴
-    public UserDTO(Long userId, String username, String password, String role) {
-        this.userId = userId;
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
 
     /**
      * 회원가입 DTO 생성자 (username, password, role)

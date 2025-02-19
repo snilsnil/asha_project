@@ -62,8 +62,9 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
-                        configuration.setAllowedOrigins(Collections.singletonList("http://localhost:5173")); // 허용할
-                                                                                                             // 프론트엔드 주소
+                        configuration.setAllowedOrigins(
+                                Collections.singletonList("http://localhost:3000")); // 허용할
+                        // 프론트엔드 주소
                         configuration.setAllowedMethods(Collections.singletonList("*")); // 허용할 HTTP 메소드
                         configuration.setAllowCredentials(true); // 쿠키 전달 허용
                         configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용

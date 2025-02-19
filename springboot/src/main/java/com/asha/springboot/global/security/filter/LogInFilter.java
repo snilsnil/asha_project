@@ -16,6 +16,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 
 /**
@@ -26,17 +27,12 @@ import lombok.Builder;
  * </p>
  * 
  */
-
+@Builder
+@AllArgsConstructor
 public class LogInFilter extends UsernamePasswordAuthenticationFilter {
 
     private final AuthenticationManager authenticationManager;
     private final JWTGenerator jwtGenerator;
-
-    @Builder
-    public LogInFilter(AuthenticationManager authenticationManager, JWTGenerator jwtGenerator) {
-        this.authenticationManager = authenticationManager;
-        this.jwtGenerator = jwtGenerator;
-    }
 
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request, HttpServletResponse response)
@@ -86,7 +82,6 @@ public class LogInFilter extends UsernamePasswordAuthenticationFilter {
 
         // 60 * 60 * 10L = 10시간
         String token = jwtGenerator.createJwt(username, 60 * 60 * 10L, role);
-        System.out.println("token: " + token);
 
         response.addHeader("Authorization", "Bearer " + token);
     }
@@ -96,8 +91,8 @@ public class LogInFilter extends UsernamePasswordAuthenticationFilter {
     protected void unsuccessfulAuthentication(HttpServletRequest request, HttpServletResponse response,
             AuthenticationException failed) {
 
-        // 로그인 실패시 401 응답 코드 반환
-        response.setStatus(401);
+        // 로그인 실패시 403 응답 코드 반환
+        response.setStatus(403);
     }
 
     private static class LoginRequest {
