@@ -2,8 +2,11 @@ package com.asha.springboot.domain.user.dto;
 
 import com.asha.springboot.domain.user.entity.UserEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 로그인에 관한 DTO
@@ -14,6 +17,10 @@ import lombok.Getter;
  * 
  */
 @Getter
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class LogInDTO {
     private String username;
     private String password;
@@ -25,11 +32,6 @@ public class LogInDTO {
      * @param username
      * @param password
      */
-    @Builder
-    public LogInDTO(String username, String password) {
-        this.username = username;
-        this.password = password;
-    }
 
     public UserEntity toEntity() {
         return UserEntity.builder()

@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,9 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@NoArgsConstructor // 기본 생성자 추가
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserInfoEntity {
 
     @Id // primary key(기본키) 설정
@@ -31,10 +34,4 @@ public class UserInfoEntity {
     @OneToOne // 1:1 단방향을 위해 UserEntity의 userEntity를 참조 (외래키)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
-
-    @Builder // 생성자 대신 빌더 사용 (변경 가능성을 최소화) -> 생성자 패턴 중 빌더 패턴
-    public UserInfoEntity(String email, UserEntity userEntity) {
-        this.email = email;
-        this.userEntity = userEntity;
-    }
 }

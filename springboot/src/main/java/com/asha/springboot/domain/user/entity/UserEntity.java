@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,9 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@NoArgsConstructor // 기본 생성자 추가
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserEntity {
 
     @Id // primary key(기본키) 설정
@@ -31,13 +34,6 @@ public class UserEntity {
     private String password;
 
     private String role;
-
-    @Builder // 생성자 대신 빌더 사용 (변경 가능성을 최소화) -> 생성자 패턴 중 빌더 패턴
-    public UserEntity(String username, String password, String role) {
-        this.username = username;
-        this.password = password;
-        this.role = role;
-    }
 
     /**
      * UserDTO로 변환

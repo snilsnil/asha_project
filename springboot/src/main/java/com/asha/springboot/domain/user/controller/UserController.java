@@ -9,8 +9,6 @@ import com.asha.springboot.domain.user.service.UserService;
 
 import lombok.RequiredArgsConstructor;
 
-
-
 // 1️⃣ Next.js (프론트) → POST /signup 요청
 // 2️⃣ Spring Boot UserController에서 요청 수신
 // 3️⃣ DTO (UserSignUpDTO)로 데이터 변환
@@ -37,7 +35,6 @@ public class UserController {
      */
     @PostMapping("/signup")
     public String signup(@RequestBody UserSignUpDTO userSignUpDTO) {
-        System.out.println(userSignUpDTO);
 
         // 회원가입 정보를 받아서 DB에 저장하기
         String result = userService.createUser(userSignUpDTO);

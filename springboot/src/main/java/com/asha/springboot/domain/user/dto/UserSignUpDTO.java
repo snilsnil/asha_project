@@ -4,8 +4,11 @@ import com.asha.springboot.domain.user.entity.UserEntity;
 import com.asha.springboot.domain.user.entity.UserInfoEntity;
 import com.asha.springboot.domain.user.entity.UserNickNameEntity;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * 회원가입에 관한 DTO
@@ -17,6 +20,10 @@ import lombok.Getter;
  * 
  */
 @Getter
+@ToString
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class UserSignUpDTO {
     private String username;
     private String password;
@@ -31,13 +38,6 @@ public class UserSignUpDTO {
      * @param email
      * @param nickname
      */
-    @Builder // 생성자 대신 빌더 사용 (변경 가능성을 최소화) -> 생성자 패턴 중 빌더 패턴
-    public UserSignUpDTO(String username, String password, String email, String nickname) {
-        this.username = username;
-        this.password = password;
-        this.email = email;
-        this.nickname = nickname;
-    }
 
     /**
      * 암호화된 비밀번호로 변환
