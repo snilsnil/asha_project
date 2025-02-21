@@ -3,13 +3,15 @@ package com.asha.springboot.product;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Optional;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import com.asha.springboot.domain.product.dto.ProductDTO;
 import com.asha.springboot.domain.product.entity.AuctionEntity;
+import com.asha.springboot.domain.product.entity.AuctionStatus;
 import com.asha.springboot.domain.product.entity.BidEntity;
 import com.asha.springboot.domain.product.entity.CategoryEntity;
 import com.asha.springboot.domain.product.entity.ProductEntity;
@@ -17,11 +19,7 @@ import com.asha.springboot.domain.product.repository.AuctionRepository;
 import com.asha.springboot.domain.product.repository.BidRepository;
 import com.asha.springboot.domain.product.repository.CategoryRepository;
 import com.asha.springboot.domain.product.repository.ProductRepository;
-import com.asha.springboot.domain.user.entity.UserEntity;
-import com.asha.springboot.domain.user.repository.UserRepository;
-
-import static com.asha.springboot.domain.product.entity.AuctionStatus.IN_PROGRESS;
-
+import com.asha.springboot.domain.user.repository.UserNickNameRepository;
 
 /**
  * 상품 테스트
@@ -42,7 +40,68 @@ public class ProductTest {
     private CategoryRepository categoryRepository;
 
     @Autowired
-    private UserRepository userRepository;
+    private UserNickNameRepository userNickNameRepository;
+
+    private String nickname1;
+    private String nickname2;
+
+    private CategoryEntity categoryEntity1;
+    private CategoryEntity categoryEntity2;
+
+    private ProductEntity product;
+
+    private AuctionEntity auction;
+
+    private BidEntity bid;
+
+    private LocalDateTime now;
+
+    private AuctionStatus inProgress;
+
+    @BeforeEach
+    public void setup() {
+        // 테스트 데이터 : 사용자 추가
+        nickname1 = userNickNameRepository.findByNickname("admin").get().getNickname();
+        nickname2 = userNickNameRepository.findByNickname("admin2").get().getNickname();
+
+        inProgress = AuctionStatus.IN_PROGRESS;
+
+        categoryEntity1 = CategoryEntity.builder()
+                .categoryName("game")
+                .build();
+
+        categoryEntity2 = CategoryEntity.builder()
+                .categoryName("Electronics")
+                .build();
+
+        now = LocalDateTime.now();
+
+        product = ProductEntity.builder()
+                .productName("Nintendo Switch 2")
+                .description("Nintendo Switch2 Console")
+                .imageUrl("https://www.nintento.co.kr/switch.index.php")
+                .categories(List.of(categoryEntity1, categoryEntity2))
+                .build();
+
+        auction = AuctionEntity.builder()
+                .product(product)
+                .seller(nickname1)
+                .startPrice(new BigDecimal("100000"))
+                .nowPrice(new BigDecimal("200000"))
+                .endPrice(new BigDecimal("500000"))
+                .buyNowPrice(new BigDecimal("500000"))
+                .status(inProgress)
+                .startAuctionTime(now.minusHours(5))
+                .endAuctionTime(now.plusHours(5))
+                .build();
+
+        bid = BidEntity.builder()
+                .auction(auction)
+                .customer(nickname2)
+                .bidPrice(new BigDecimal("150000"))
+                .bidTime(now)
+                .build();
+    }
 
     /**
      * 상품 저장 테스트
@@ -50,50 +109,31 @@ public class ProductTest {
     @Test
     public void testSaveProduct() {
 
-        LocalDateTime productNow = LocalDateTime.now();
-        LocalDateTime starTime = productNow.minusHours(5);
-        LocalDateTime endTime = productNow.plusHours(5);
+        // 카테고리 저장
+        categoryRepository.save(categoryEntity1);
+        categoryRepository.save(categoryEntity2);
 
-        ProductDTO productDTO = ProductDTO.builder()
-                .productName("Nintendo Switch 2")
-                .description("Nintendo Switch 2 Console")
-                .imageUrl("https://www.nintendo.co.kr/switch/index.php")
-                .categoryName("Game, Electronics")
-                .buyNowPrice(new BigDecimal("500000"))
-                .startPrice(new BigDecimal("100000"))
-                .nowPrice(new BigDecimal("200000"))
-                .endPrice(new BigDecimal("500000"))
-                .startAuctionTime(starTime)
-                .endAuctionTime(endTime)
-                .status(IN_PROGRESS)
-                .bidPrice(new BigDecimal("150000"))
-                .bidTime(productNow)
-                .build();
+        // 상품 저장
+        productRepository.save(product);
 
-        UserEntity userEntity1 = userRepository.findByUsername("admin");
-        UserEntity userEntity2 = userRepository.findByUsername("admin2");
+        // 경매 저장
+        auctionRepository.save(auction);
 
-        List<CategoryEntity> categoryEntities = productDTO.toCategoryEntities();
-        categoryEntities = categoryRepository.saveAll(categoryEntities);
-
-        ProductEntity productEntity = productRepository.save(productDTO.toProductEntity(categoryEntities));
-
-        AuctionEntity auctionEntity = auctionRepository.save(productDTO.toAuctionEntity(productEntity, userEntity1));
-
-        bidRepository.save(productDTO.toBidEntity(auctionEntity, userEntity2));
+        // 입찰 저장
+        bidRepository.save(bid);
     }
 
     @Test
     public void testFindProduct() {
         String productName = "Nintendo Switch 2";
-        ProductEntity productEntity = productRepository.findByProductName(productName);
-        System.out.println(productEntity);
+        Optional<ProductEntity> productEntity = productRepository.findByProductName(productName);
+        System.out.println(productEntity.get());
     }
 
     @Test
     public void testFindAuction() {
-        List<AuctionEntity> auctionEntity = auctionRepository.findAll();
-        System.out.println(auctionEntity);
+        Optional<AuctionEntity> auctionEntity = auctionRepository.findByStartPrice(new BigDecimal("100000"));
+        System.out.println(auctionEntity.get());
     }
 
     @Test

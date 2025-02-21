@@ -11,9 +11,8 @@ import com.asha.springboot.domain.product.entity.AuctionStatus;
 import com.asha.springboot.domain.product.entity.BidEntity;
 import com.asha.springboot.domain.product.entity.CategoryEntity;
 import com.asha.springboot.domain.product.entity.ProductEntity;
-import com.asha.springboot.domain.user.entity.UserEntity;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,9 +21,7 @@ import lombok.NoArgsConstructor;
  * 상품 정보 DTO (테스트용)
  */
 @Getter
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 
 public class ProductDTO {
     private String productName;
@@ -44,6 +41,36 @@ public class ProductDTO {
     private BigDecimal bidPrice;
     private LocalDateTime bidTime;
 
+    @Builder
+    public ProductDTO(
+            String productName,
+            String description,
+            String imageUrl,
+            String categoryName,
+            BigDecimal buyNowPrice,
+            BigDecimal startPrice,
+            BigDecimal nowPrice,
+            BigDecimal endPrice,
+            LocalDateTime startAuctionTime,
+            LocalDateTime endAuctionTime,
+            AuctionStatus status,
+            BigDecimal bidPrice,
+            LocalDateTime bidTime) {
+        this.productName = productName;
+        this.description = description;
+        this.imageUrl = imageUrl;
+        this.categoryName = categoryName;
+        this.buyNowPrice = buyNowPrice;
+        this.startPrice = startPrice;
+        this.nowPrice = nowPrice;
+        this.endPrice = endPrice;
+        this.startAuctionTime = startAuctionTime;
+        this.endAuctionTime = endAuctionTime;
+        this.status = status;
+        this.bidPrice = bidPrice;
+        this.bidTime = bidTime;
+    }
+
     public ProductEntity toProductEntity(List<CategoryEntity> categories) {
         return ProductEntity.builder()
                 .productName(productName)
@@ -53,7 +80,7 @@ public class ProductDTO {
                 .build();
     }
 
-    public AuctionEntity toAuctionEntity(ProductEntity productEntity, UserEntity user) {
+    public AuctionEntity toAuctionEntity(ProductEntity productEntity, String seller) {
         return AuctionEntity.builder()
                 .product(productEntity)
                 .buyNowPrice(buyNowPrice)
@@ -63,16 +90,16 @@ public class ProductDTO {
                 .startAuctionTime(startAuctionTime)
                 .endAuctionTime(endAuctionTime)
                 .status(status)
-                .sellerId(user)
+                .seller(seller)
                 .build();
     }
 
-    public BidEntity toBidEntity(AuctionEntity auctionEntity, UserEntity user) {
+    public BidEntity toBidEntity(AuctionEntity auction, String customer) {
         return BidEntity.builder()
-                .auctionId(auctionEntity)
+                .auction(auction)
                 .bidPrice(bidPrice)
                 .bidTime(bidTime)
-                .customer(user)
+                .customer(customer)
                 .build();
     }
 

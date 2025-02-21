@@ -8,6 +8,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 import org.springframework.security.core.Authentication;
 
 import com.asha.springboot.domain.user.dto.UserDTO;
+import com.asha.springboot.domain.user.entity.UserRole;
 import com.asha.springboot.global.security.jwt.JWTGenerator;
 import com.asha.springboot.global.security.userDetail.CustomUserDetails;
 
@@ -71,7 +72,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
         // 토큰에서 username과 role 획득
         String username = jwtGenerator.getUsername(token);
-        String role = jwtGenerator.getRole(token);
+        UserRole role = UserRole.valueOf(jwtGenerator.getRole(token));
 
         // User를 생성하여 값 set
         UserDTO userDTO = new UserDTO(username, "temppassword", role);

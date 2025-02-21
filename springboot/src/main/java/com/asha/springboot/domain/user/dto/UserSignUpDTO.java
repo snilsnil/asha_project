@@ -3,8 +3,9 @@ package com.asha.springboot.domain.user.dto;
 import com.asha.springboot.domain.user.entity.UserEntity;
 import com.asha.springboot.domain.user.entity.UserInfoEntity;
 import com.asha.springboot.domain.user.entity.UserNickNameEntity;
+import com.asha.springboot.domain.user.entity.UserRole;
 
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -21,31 +22,24 @@ import lombok.ToString;
  */
 @Getter
 @ToString
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserSignUpDTO {
     private String username;
     private String password;
     private String email;
     private String nickname;
+    private String role;
 
-    /**
-     * 회원가입 DTO 생성자 (username, password, email)
-     * 
-     * @param username
-     * @param password
-     * @param email
-     * @param nickname
-     */
+    private UserRole admin = UserRole.ADMIN;
+    private UserRole user = UserRole.USER;
 
-    /**
-     * 암호화된 비밀번호로 변환
-     * 
-     * @param password
-     */
-    public void passwordEncoder(String password) {
+    @Builder
+    public UserSignUpDTO(String username, String password, String email, String nickname, String role) {
+        this.username = username;
         this.password = password;
+        this.email = email;
+        this.nickname = nickname;
+        this.role = role;
     }
 
     /**
@@ -53,11 +47,11 @@ public class UserSignUpDTO {
      * 
      * @return UserEntity
      */
-    public UserEntity toEntity() {
+    public UserEntity toEntity(String passwordEncoder) {
         return UserEntity.builder()
                 .username(username)
-                .password(password)
-                .role("customer")
+                .password(passwordEncoder)
+                .role(UserRole.valueOf(role))
                 .build(); // entity 객체 생성
     }
 

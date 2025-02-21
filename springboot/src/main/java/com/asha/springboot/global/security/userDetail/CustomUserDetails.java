@@ -52,7 +52,7 @@ public class CustomUserDetails implements UserDetails {
 
     public String getRole() {
 
-        return userDTO.getRole();
+        return userDTO.getRole().toString();
     }
 
     @Override
