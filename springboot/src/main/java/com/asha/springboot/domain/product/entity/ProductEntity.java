@@ -11,7 +11,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,9 +24,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor // 기본 생성자 추가
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductEntity {
 
     // 상품 ID
@@ -51,5 +49,15 @@ public class ProductEntity {
     // 상품 이미지 URL
     @Column(name = "image_url")
     private String imageUrl;
+
+    @Builder
+    public ProductEntity(Long productId, String productName, String description, List<CategoryEntity> categories,
+            String imageUrl) {
+        this.productId = productId;
+        this.productName = productName;
+        this.description = description;
+        this.categories = categories;
+        this.imageUrl = imageUrl;
+    }
 
 }

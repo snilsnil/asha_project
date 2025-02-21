@@ -4,10 +4,12 @@ import com.asha.springboot.domain.user.dto.UserDTO;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,9 +21,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Builder
-@AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserEntity {
 
     @Id // primary key(기본키) 설정
@@ -31,9 +31,20 @@ public class UserEntity {
     @Column(name = "username", unique = true) // username은 unique(단일 조건)해야 함
     private String username; // 사용자 ID
 
+    @Column(name = "password", nullable = false)
     private String password;
 
-    private String role;
+    @Column(name = "role", nullable = false)
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
+
+    @Builder
+    public UserEntity(Long userId, String username, String password, UserRole role) {
+        this.userId = userId;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
 
     /**
      * UserDTO로 변환

@@ -7,7 +7,6 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
-import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -19,8 +18,6 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@Builder
-@AllArgsConstructor
 @NoArgsConstructor
 public class UserNickNameEntity {
 
@@ -34,4 +31,11 @@ public class UserNickNameEntity {
     @OneToOne // 1:1 단방향을 위해 UserEntity의 userEntity를 참조 (외래키)
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
+
+    @Builder
+    public UserNickNameEntity(Long nicknameId, String nickname, UserEntity userEntity) {
+        this.nicknameId = nicknameId;
+        this.nickname = nickname;
+        this.userEntity = userEntity;
+    }
 }

@@ -58,10 +58,10 @@ public class UserService {
             }
 
             // 비밀번호 암호화
-            userSignUpDTO.passwordEncoder(passwordEncoder.encode(userSignUpDTO.getPassword()));
+            String encodedPassword = passwordEncoder.encode(userSignUpDTO.getPassword());
 
             // DTO를 Entity로 변환
-            UserEntity userEntity = userSignUpDTO.toEntity();
+            UserEntity userEntity = userSignUpDTO.toEntity(encodedPassword);
 
             // 사용자 정보를 DB에 저장
             userEntity = userRepository.save(userEntity);
