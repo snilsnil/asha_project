@@ -3,6 +3,8 @@ package com.asha.springboot.domain.product.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+import com.asha.springboot.domain.user.entity.UserEntity;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.FetchType;
@@ -31,10 +33,10 @@ public class BidEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bidId;
 
-    // 경매 ID (외래키)
-    @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩 설정
-    @JoinColumn(name = "auction_id")
-    private AuctionEntity auction;
+    // 경매 (외래키)
+    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
+    @JoinColumn(name = "auction_id") // auction_id 외래키
+    private AuctionEntity auction; // 경매 엔티티
 
     // 입찰 금액
     @Column(name = "bid_price", nullable = false)
@@ -44,17 +46,17 @@ public class BidEntity {
     @Column(name = "bid_time", nullable = false)
     private LocalDateTime bidTime;
 
-    // 입찰자
-    @Column(name = "customer", nullable = false)
-    private String customer;
+    // 입찰자 (사용자)
+    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
+    @JoinColumn(name = "customer_id") // 고객 ID 외래키
+    private UserEntity user; // 입찰한 사용자
 
     @Builder
-    public BidEntity(Long bidId, AuctionEntity auction, BigDecimal bidPrice, LocalDateTime bidTime, String customer) {
+    public BidEntity(Long bidId, AuctionEntity auction, BigDecimal bidPrice, LocalDateTime bidTime, UserEntity user) {
         this.bidId = bidId;
         this.auction = auction;
         this.bidPrice = bidPrice;
         this.bidTime = bidTime;
-        this.customer = customer;
+        this.user = user;
     }
-
 }
