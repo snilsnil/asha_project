@@ -6,6 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 public class ProductDTO {
@@ -13,26 +14,26 @@ public class ProductDTO {
     private String productName;    // 상품 이름
     private String description;     // 상품 설명
     private BigDecimal startPrice;  // 경매 시작 가격
-    private Long categoryId;       // 카테고리 ID
+    private List<CategoryEntity> categories; // 카테고리 리스트
     private String imageUrl;       // 상품 이미지 URL
 
     @Builder
-    public ProductDTO(Long productId, String productName, String description, BigDecimal startPrice, Long categoryId, String imageUrl) {
+    public ProductDTO(Long productId, String productName, String description, BigDecimal startPrice, List<CategoryEntity> categories, String imageUrl) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
         this.startPrice = startPrice;
-        this.categoryId = categoryId;
+        this.categories = categories; // List<CategoryEntity로 변경
         this.imageUrl = imageUrl;
     }
 
-    public ProductEntity toEntity(CategoryEntity categoryEntity) {
+    public ProductEntity toEntity() {
         return ProductEntity.builder()
                 .productId(productId)
                 .productName(productName)
                 .description(description)
                 .startPrice(startPrice)
-                .category(categoryEntity)  // CategoryEntity를 사용하여 카테고리 설정
+                .categories(categories)  // List<CategoryEntity 사용
                 .imageUrl(imageUrl)
                 .build();
     }

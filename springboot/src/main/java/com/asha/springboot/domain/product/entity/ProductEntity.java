@@ -1,5 +1,6 @@
 package com.asha.springboot.domain.product.entity;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import jakarta.persistence.Column;
@@ -27,38 +28,33 @@ import lombok.ToString;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ProductEntity {
 
-    // 상품 ID
     @Id // 기본키 설정
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long productId;
 
-    // 상품 이름
     @Column(name = "product_name", nullable = false) // Null 허용하지 않음
     private String productName;
 
-    // 상품 설명
     @Column(name = "description", columnDefinition = "TEXT") // TEXT 타입으로 설정
     private String description;
 
-    // 카테고리 ID (외래키)
-    // 외래키 컬럼 설정 many-to-many 관계 (Category 엔티티와 연결)
+    @Column(name = "start_price", nullable = false) // null 허용하지 않음
+    private BigDecimal startPrice;
+
     @ManyToMany(fetch = FetchType.EAGER) // 즉시 로딩으로 설정
     @JoinTable(name = "product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private List<CategoryEntity> categories;
 
-    // 상품 이미지 URL
     @Column(name = "image_url")
     private String imageUrl;
 
     @Builder
-    public ProductEntity(Long productId, String productName, String description, List<CategoryEntity> categories,
-            String imageUrl) {
+    public ProductEntity(Long productId, String productName, String description, BigDecimal startPrice, List<CategoryEntity> categories, String imageUrl) {
         this.productId = productId;
         this.productName = productName;
         this.description = description;
+        this.startPrice = startPrice; // startPrice 초기화
         this.categories = categories;
-        
         this.imageUrl = imageUrl;
     }
-
 }
