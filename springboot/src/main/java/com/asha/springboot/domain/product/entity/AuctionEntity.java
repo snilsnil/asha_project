@@ -3,8 +3,6 @@ package com.asha.springboot.domain.product.entity;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-import com.asha.springboot.domain.user.entity.UserEntity;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -20,7 +18,7 @@ import lombok.Getter;
 import lombok.ToString;
 
 @Getter
-@ToString(exclude = {"product", "seller"}) // 무한 참조 방지
+@ToString(exclude = { "product", "seller" }) // 무한 참조 방지
 @Entity
 @Builder
 public class AuctionEntity {
@@ -28,7 +26,7 @@ public class AuctionEntity {
     // 경매 ID
     @Id // 기본키
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long auctionId; 
+    private Long auctionId;
 
     // 상품 ID , 외래키
     @ManyToOne(fetch = FetchType.LAZY)
@@ -65,7 +63,6 @@ public class AuctionEntity {
     private AuctionStatus status;
 
     // 판매자 ID
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "seller_id")
-    private UserEntity seller;
+    @Column(name = "seller", nullable = false)
+    private String seller;
 }
