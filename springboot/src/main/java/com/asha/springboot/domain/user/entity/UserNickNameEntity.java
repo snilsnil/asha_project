@@ -18,7 +18,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@NoArgsConstructor // 기본 생성자 추가
+@NoArgsConstructor
 public class UserNickNameEntity {
 
     @Id // primary key(기본키) 설정
@@ -32,8 +32,9 @@ public class UserNickNameEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @Builder // 생성자 대신 빌더 사용 (변경 가능성을 최소화) -> 생성자 패턴 중 빌더 패턴
-    public UserNickNameEntity(String nickname, UserEntity userEntity) {
+    @Builder
+    public UserNickNameEntity(Long nicknameId, String nickname, UserEntity userEntity) {
+        this.nicknameId = nicknameId;
         this.nickname = nickname;
         this.userEntity = userEntity;
     }

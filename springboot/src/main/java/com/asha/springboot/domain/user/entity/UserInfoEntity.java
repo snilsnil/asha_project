@@ -7,6 +7,7 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.OneToOne;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-@NoArgsConstructor // 기본 생성자 추가
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserInfoEntity {
 
     @Id // primary key(기본키) 설정
@@ -32,8 +33,9 @@ public class UserInfoEntity {
     @JoinColumn(name = "user_id")
     private UserEntity userEntity;
 
-    @Builder // 생성자 대신 빌더 사용 (변경 가능성을 최소화) -> 생성자 패턴 중 빌더 패턴
-    public UserInfoEntity(String email, UserEntity userEntity) {
+    @Builder
+    public UserInfoEntity(Long userInfoId, String email, UserEntity userEntity) {
+        this.userInfoId = userInfoId;
         this.email = email;
         this.userEntity = userEntity;
     }

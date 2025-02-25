@@ -13,18 +13,19 @@ import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
-import lombok.AllArgsConstructor;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+/**
+ * 입찰 정보 엔티티
+ */
 @Getter
-@ToString(exclude = {"auction", "user"}) // 무한 참조 방지
+@ToString
 @Entity
-@Builder
-@NoArgsConstructor // 기본 생성자 추가 (JPA에서 요구)
-@AllArgsConstructor // 모든 필드를 받는 생성자 추가
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class BidEntity {
 
     // 입찰 ID
@@ -33,7 +34,7 @@ public class BidEntity {
     private Long bidId;
 
     // 경매 (외래키)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
     @JoinColumn(name = "auction_id") // auction_id 외래키
     private AuctionEntity auction; // 경매 엔티티
 
@@ -46,7 +47,16 @@ public class BidEntity {
     private LocalDateTime bidTime;
 
     // 입찰자 (사용자)
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
     @JoinColumn(name = "customer_id") // 고객 ID 외래키
     private UserEntity user; // 입찰한 사용자
+
+    @Builder
+    public BidEntity(Long bidId, AuctionEntity auction, BigDecimal bidPrice, LocalDateTime bidTime, UserEntity user) {
+        this.bidId = bidId;
+        this.auction = auction;
+        this.bidPrice = bidPrice;
+        this.bidTime = bidTime;
+        this.user = user;
+    }
 }
