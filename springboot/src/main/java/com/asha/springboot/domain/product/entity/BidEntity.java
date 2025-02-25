@@ -31,10 +31,10 @@ public class BidEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long bidId;
 
-    // 경매 (외래키)
-    @ManyToOne(fetch = FetchType.LAZY) // 지연 로딩
-    @JoinColumn(name = "auction_id") // auction_id 외래키
-    private AuctionEntity auction; // 경매 엔티티
+    // 경매 ID (외래키)
+    @ManyToOne(fetch = FetchType.EAGER) // 즉시 로딩 설정
+    @JoinColumn(name = "auction_id")
+    private AuctionEntity auction;
 
     // 입찰 금액
     @Column(name = "bid_price", nullable = false)
@@ -44,9 +44,9 @@ public class BidEntity {
     @Column(name = "bid_time", nullable = false)
     private LocalDateTime bidTime;
 
-    // 입찰자 (사용자)
+    // 입찰자
     @Column(name = "customer", nullable = false)
-    private String customer; // 입찰한 사용자
+    private String customer;
 
     @Builder
     public BidEntity(Long bidId, AuctionEntity auction, BigDecimal bidPrice, LocalDateTime bidTime, String customer) {
@@ -56,4 +56,5 @@ public class BidEntity {
         this.bidTime = bidTime;
         this.customer = customer;
     }
+
 }
