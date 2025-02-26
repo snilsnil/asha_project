@@ -17,6 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
+import com.asha.springboot.domain.user.repository.UserRepository;
 import com.asha.springboot.global.security.filter.JwtFilter;
 import com.asha.springboot.global.security.filter.LogInFilter;
 import com.asha.springboot.global.security.jwt.JWTGenerator;
@@ -43,6 +44,7 @@ public class SecurityConfig {
 
     private final AuthenticationConfiguration authenticationConfiguration;
     private final JWTGenerator jwtGenerator;
+    private final UserRepository userRepository;
 
     // AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     // public SecurityConfig(AuthenticationConfiguration
@@ -78,13 +80,15 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/checkToken", "/signup").permitAll() // /signup 엔드포인트에 대해 시큐리티 필터
-                                                                                         // 비활성화
+                        .requestMatchers("/login", "/signup")
+                        .permitAll() // /signup 엔드포인트에 대해 시큐리티 필터
+                                     // 비활성화
                         .anyRequest().authenticated())
-                .addFilterBefore(new JwtFilter(jwtGenerator), UsernamePasswordAuthenticationFilter.class) // JwtFilter를
-                                                                                                          // UsernamePasswordAuthenticationFilter
-                                                                                                          // 앞에 추가
-                .addFilterAt(new LogInFilter(authenticationManager(authenticationConfiguration), jwtGenerator),
+                .addFilterBefore(new JwtFilter(jwtGenerator, userRepository),
+                        UsernamePasswordAuthenticationFilter.class)
+                .addFilterAt(
+                        new LogInFilter(authenticationManager(authenticationConfiguration), jwtGenerator,
+                                userRepository),
                         UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

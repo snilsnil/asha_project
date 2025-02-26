@@ -21,6 +21,7 @@ import lombok.ToString;
 @ToString
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class UserDTO {
+    private Long userId;
     private String username;
     private String password;
     private UserRole role;

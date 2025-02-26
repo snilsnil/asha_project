@@ -55,6 +55,11 @@ public class CustomUserDetails implements UserDetails {
         return userDTO.getRole().toString();
     }
 
+    public Long getUserId() {
+
+        return userDTO.getUserId();
+    }
+
     @Override
     public boolean isAccountNonExpired() { // 계정이 만료되지 않았는지 확인
 
