@@ -24,23 +24,23 @@ export default function LoginForm() {
         e.preventDefault(); // 폼 기본 제출 방지
 
         try {
-            const res = await axios.post("http://localhost:8080/login", {
-                username,
-                password,
-            });
-
-            console.log(res.headers);
+            const res = await axios.post(
+                "http://localhost:8080/login",
+                {
+                    username,
+                    password,
+                },
+                {
+                    headers: {
+                        "Content-Type": "multipart/form-data",
+                        "Access-Control-Allow-Origin": "*",
+                    },
+                    withCredentials: true, // 쿠키 포함
+                }
+            );
 
             if (res.status === 200) {
-                const token = res.headers["authorization"];
-                console.log(token);
-                if (token) {
-                    const tokenValue = token.replace("Bearer ", "");
-                    document.cookie = `token=${tokenValue}; path=/;`;
-                    return (window.location.href = "/");
-                }
-            } else {
-                return (window.location.href = "/login");
+                return (window.location.href = "/");
             }
         } catch (error) {
             console.error("Error:", error);

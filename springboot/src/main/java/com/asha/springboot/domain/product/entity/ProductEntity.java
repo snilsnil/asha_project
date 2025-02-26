@@ -60,4 +60,14 @@ public class ProductEntity {
         this.imageUrl = imageUrl;
     }
 
+    // 상품 정보 수정 메서드
+    public void updateProduct(String productName, String description, String imageUrl) {
+        if (productName == null || productName.isBlank()) {
+            throw new IllegalArgumentException("상품명은 비워둘 수 없습니다.");
+        }
+        this.productName = productName;
+        this.description = description;
+        this.imageUrl = imageUrl;
+    }
+
 }
