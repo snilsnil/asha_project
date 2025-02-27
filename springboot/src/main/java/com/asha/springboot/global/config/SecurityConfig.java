@@ -72,7 +72,8 @@ public class SecurityConfig {
                         configuration.setAllowedHeaders(Collections.singletonList("*")); // 모든 헤더 허용
                         configuration.setMaxAge(3600L); // 1시간 동안 캐싱
 
-                        configuration.setExposedHeaders(Collections.singletonList("Authorization")); // 노출할 헤더
+                        configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                        // 노출할 헤더
 
                         return configuration;
                     }
@@ -80,7 +81,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/signup")
+                        .requestMatchers("/login", "/signup", "/products")
                         .permitAll() // /signup 엔드포인트에 대해 시큐리티 필터
                                      // 비활성화
                         .anyRequest().authenticated())

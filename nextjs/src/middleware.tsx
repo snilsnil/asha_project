@@ -55,5 +55,5 @@ export async function middleware(req: NextRequest, res: NextResponse) {
 
 // 미들웨어가 적용될 경로를 지정 (모든 경로에 적용)
 export const config = {
-    matcher: ["/", "/login", "/signup"], // 원하는 경로 추가
+    matcher: ["/", "/login", "/signup","/product"], // 원하는 경로 추가
 };
