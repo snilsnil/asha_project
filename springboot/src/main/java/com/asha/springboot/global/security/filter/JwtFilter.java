@@ -33,8 +33,10 @@ public class JwtFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-        String path = request.getRequestURI();
-        if ("/signup".equals(path) || "/login".equals(path)) {
+        Boolean path = checkPath(request.getRequestURI());
+        System.out.println(path);
+
+        if (path) {
             filterChain.doFilter(request, response);
             return;
         }
@@ -83,5 +85,12 @@ public class JwtFilter extends OncePerRequestFilter {
         Authentication authToken = new UsernamePasswordAuthenticationToken(customUserDetails, null,
                 customUserDetails.getAuthorities());
         SecurityContextHolder.getContext().setAuthentication(authToken);
+    }
+
+    private Boolean checkPath(String path) {
+        if ("/signup".equals(path) || "/login".equals(path) || "/products".equals(path)) {
+            return true;
+        }
+        return false;
     }
 }

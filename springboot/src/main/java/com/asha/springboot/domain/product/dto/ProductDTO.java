@@ -17,11 +17,12 @@ import java.util.List;
 public class ProductDTO {
     private String productName; // 상품 이름
     private String description; // 상품 설명
-    private List<CategoryEntity> categories; // 카테고리 리스트
+    private String categories; // 카테고리 리스트
+    private List<CategoryEntity> categoryEntities; // 카테고리 리스트
     private String imageUrl; // 상품 이미지 URL
 
     @Builder
-    public ProductDTO(String productName, String description, List<CategoryEntity> categories,
+    public ProductDTO(String productName, String description, String categories,
             String imageUrl) {
         this.productName = productName;
         this.description = description;
@@ -29,11 +30,13 @@ public class ProductDTO {
         this.imageUrl = imageUrl;
     }
 
-    public ProductEntity toEntity() {
+    public ProductEntity toEntity(List<CategoryEntity> categoriyEntities) {
+        // List<CategoryEntity> categoryEntities=List<CategoryDTO>.toCategoryEntities();
         return ProductEntity.builder()
                 .productName(productName)
                 .description(description)
-                .categories(categories) // List<CategoryEntity 사용
+                .categories(
+                        categoriyEntities) // List<CategoryEntity 사용
                 .imageUrl(imageUrl)
                 .build();
     }

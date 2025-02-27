@@ -25,10 +25,36 @@ public class CategoryDTO {
         this.categoryName = categoryName;
     }
 
+    @Builder
+    public CategoryDTO(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    @Builder
+    public CategoryDTO(List<CategoryDTO> categories) {
+        this.categoryId = null; // 리스트 생성 시 개별 ID는 사용하지 않음
+        this.categoryName = categories.stream()
+                .map(CategoryDTO::getCategoryName)
+                .collect(Collectors.joining(",")); // 문자열로 변환
+    }
+
+    public CategoryEntity toEntity() {
+        return CategoryEntity.builder()
+                .categoryName(categoryName).build();
+    }
+
     public List<CategoryEntity> toCategoryEntities() {
         return Stream.of(categoryName.split(","))
                 .map(String::trim)
                 .map(name -> CategoryEntity.builder().categoryName(name).build())
+                .collect(Collectors.toList());
+    }
+
+    public static List<CategoryEntity> toCategoryEntities(List<String> categories) {
+        return categories.stream()
+                .map(categoryName -> CategoryEntity.builder()
+                        .categoryName(categoryName) // String을 categoryName에 할당
+                        .build())
                 .collect(Collectors.toList());
     }
 }

@@ -1,5 +1,6 @@
 package com.asha.springboot.domain.product.controller;
 
+import com.asha.springboot.domain.product.dto.ProductDTO;
 import com.asha.springboot.domain.product.entity.ProductEntity;
 import com.asha.springboot.domain.product.service.ProductService;
 import org.springframework.http.HttpStatus;
@@ -21,9 +22,9 @@ public class ProductController {
 
     // 상품 등록
     @PostMapping
-    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductEntity product) {
+    public ResponseEntity<ProductEntity> createProduct(@RequestBody ProductDTO product) {
         ProductEntity createdProduct = productService.createProduct(product);
-        return new ResponseEntity<>(createdProduct, HttpStatus.CREATED);
+        return ResponseEntity.status(HttpStatus.CREATED).body(createdProduct);
     }
 
     // 특정 상품 조회
@@ -31,7 +32,7 @@ public class ProductController {
     public ResponseEntity<ProductEntity> getProductById(@PathVariable Long productId) {
         Optional<ProductEntity> product = productService.getProductById(productId);
         return product.map(ResponseEntity::ok)
-                      .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
+                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
     }
 
     // 전체 상품 조회
@@ -43,7 +44,8 @@ public class ProductController {
 
     // 상품 수정
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductEntity> updateProduct(@PathVariable Long productId, @RequestBody ProductEntity updatedProduct) {
+    public ResponseEntity<ProductEntity> updateProduct(@PathVariable Long productId,
+            @RequestBody ProductEntity updatedProduct) {
         try {
             ProductEntity product = productService.updateProduct(productId, updatedProduct);
             return ResponseEntity.ok(product);
