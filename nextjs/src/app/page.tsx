@@ -1,8 +1,32 @@
+"use client";
+
 import Image from "next/image";
 import styles from "./page.module.css";
 import Link from "next/link";
+import axios from "axios";
+import { useEffect } from "react";
 
 export default function Home() {
+    useEffect(() => {
+        const checkToken = async () => {
+            try {
+                const res = await axios.get(
+                    `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
+                    {
+                        headers: {
+                            withCredentials: true,
+                        },
+                    }
+                );
+                console.log(res);
+            } catch (error) {
+                console.error("토큰 체크 오류:", error);
+            }
+        };
+
+        checkToken();
+    }, []);
+
     return (
         <div className={styles.page}>
             <main className={styles.main}>
