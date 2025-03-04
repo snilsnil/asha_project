@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
             // 토큰을 검증하기 위해 API 호출
             const response = await axios.get(
-                "http://localhost:8080/accessToken",
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL_SERVER}/accessToken`,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken.value}`,
@@ -38,7 +38,7 @@ export async function GET(req: NextRequest) {
             return new Response(JSON.stringify(response.data), { status: 200 });
         } catch (error) {
             console.log(error);
-            return new Response(`accessToken에서 오류가 발생했습니다.`, {
+            return new Response(`${error}`, {
                 status: 500,
             });
         }
@@ -53,7 +53,7 @@ export async function GET(req: NextRequest) {
 
             // 토큰을 검증하기 위해 API 호출
             const response = await axios.get(
-                "http://localhost:8080/refreshToken",
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL_SERVER}/refreshToken`,
                 {
                     headers: {
                         Authorization: `Bearer ${refreshToken.value}`,
@@ -81,7 +81,7 @@ export async function GET(req: NextRequest) {
             return res;
         } catch (error) {
             console.log(error);
-            return new Response(`refreshToken에서 오류가 발생했습니다.`, {
+            return new Response(`${error}`, {
                 status: 500,
             });
         }

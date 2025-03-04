@@ -126,14 +126,14 @@ public class ProductTest {
     @Test
     public void testFindProduct() {
         String productName = "Nintendo Switch 2";
-        Optional<ProductEntity> productEntity = productRepository.findByProductName(productName);
-        System.out.println(productEntity.get());
+        List<ProductEntity> productEntity = productRepository.findByProductName(productName);
+        System.out.println(productEntity);
     }
 
     @Test
     public void testFindAuction() {
-        Optional<AuctionEntity> auctionEntity = auctionRepository.findByStartPrice(new BigDecimal("100000"));
-        System.out.println(auctionEntity.get());
+        List<AuctionEntity> auctionEntity = auctionRepository.findByStartPrice(new BigDecimal("100000"));
+        System.out.println(auctionEntity);
     }
 
     @Test

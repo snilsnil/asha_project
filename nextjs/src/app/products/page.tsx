@@ -41,7 +41,9 @@ export default function ProductPage() {
     // 상품 목록을 가져오는 함수
     const fetchProducts = async () => {
         try {
-            const response = await axios.get("http://localhost:8080/products");
+            const response = await axios.get(
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/products`
+            );
             setProducts(response.data);
             console.log("Fetched products:", response.data);
             setLoading(false);

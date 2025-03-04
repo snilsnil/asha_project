@@ -26,7 +26,7 @@ export default function LoginForm() {
 
         try {
             const res = await axios.post(
-                "http://localhost:8080/login",
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/login`,
                 {
                     username,
                     password,
@@ -39,6 +39,8 @@ export default function LoginForm() {
                     withCredentials: true, // 쿠키 포함
                 }
             );
+
+            console.log(res.status);
 
             if (res.status == 200) {
                 return (window.location.href = "/");

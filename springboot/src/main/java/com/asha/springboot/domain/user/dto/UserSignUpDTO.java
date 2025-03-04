@@ -47,11 +47,11 @@ public class UserSignUpDTO {
      * 
      * @return UserEntity
      */
-    public UserEntity toEntity(String passwordEncoder) {
+    public UserEntity toEntity(String passwordEncoder, String userRole) {
         return UserEntity.builder()
                 .username(username)
                 .password(passwordEncoder)
-                .role(UserRole.valueOf(role))
+                .role(UserRole.valueOf(userRole))
                 .build(); // entity 객체 생성
     }
 

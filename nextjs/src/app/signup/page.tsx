@@ -51,10 +51,13 @@ export default function SignupForm() {
         }
 
         try {
-            const res = await axios.post("http://localhost:8080/signup", {
-                ...formData,
-                password: password1, // password 추가
-            });
+            const res = await axios.post(
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/signup`,
+                {
+                    ...formData,
+                    password: password1, // password 추가
+                }
+            );
 
             console.log(res);
 
@@ -84,8 +87,8 @@ export default function SignupForm() {
                 console.log(res.data);
                 if (res.data == "토큰이 이미 존재합니다.") {
                     return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
-                    setLoading(false);
                 }
+                setLoading(false);
             } catch (error) {
                 console.error("토큰 체크 오류:", error);
             }
