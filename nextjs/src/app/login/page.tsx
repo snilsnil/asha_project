@@ -27,7 +27,7 @@ export default function LoginForm() {
 
         try {
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_BASED_URL}/login`,
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/login`,
                 {
                     username,
                     password,

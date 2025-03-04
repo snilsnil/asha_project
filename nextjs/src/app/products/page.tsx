@@ -42,7 +42,7 @@ export default function ProductPage() {
     const fetchProducts = async () => {
         try {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_BASED_URL}/products`
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/products`
             );
             setProducts(response.data);
             console.log("Fetched products:", response.data);

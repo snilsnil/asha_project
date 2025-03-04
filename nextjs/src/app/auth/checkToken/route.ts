@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
             // 토큰을 검증하기 위해 API 호출
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/accessToken`,
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_SERVER_URL}/accessToken`,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken.value}`,
@@ -55,7 +55,7 @@ export async function GET(req: NextRequest) {
 
             // 토큰을 검증하기 위해 API 호출
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/refreshToken`,
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_SERVER_URL}/refreshToken`,
                 {
                     headers: {
                         Authorization: `Bearer ${refreshToken.value}`,
