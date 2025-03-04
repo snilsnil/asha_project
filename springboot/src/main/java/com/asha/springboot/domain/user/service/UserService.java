@@ -61,7 +61,7 @@ public class UserService {
             String encodedPassword = passwordEncoder.encode(userSignUpDTO.getPassword());
 
             // DTO를 Entity로 변환
-            UserEntity userEntity = userSignUpDTO.toEntity(encodedPassword);
+            UserEntity userEntity = userSignUpDTO.toEntity(encodedPassword, "USER");
 
             // 사용자 정보를 DB에 저장
             userEntity = userRepository.save(userEntity);

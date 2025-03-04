@@ -19,6 +19,7 @@ public class CommunityTest {
         CommunityEntity test1 = new CommunityEntity("tet1", "admin", "hello world");
 
         comunityRepository.save(test1);
+        System.out.println(comunityRepository.findAll());
     }
 
 }
