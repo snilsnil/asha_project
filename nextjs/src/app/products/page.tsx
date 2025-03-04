@@ -42,7 +42,7 @@ export default function ProductPage() {
     const fetchProducts = async () => {
         try {
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/products`
+                `${process.env.NEXT_PUBLIC_BASED_URL}/products`
             );
             setProducts(response.data);
             console.log("Fetched products:", response.data);
@@ -52,25 +52,26 @@ export default function ProductPage() {
         }
     };
 
+    // 토큰 유효성 검사
+    const checkToken = async () => {
+        try {
+            const res = await axios.get(
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
+                {
+                    headers: {
+                        withCredentials: true,
+                    },
+                }
+            );
+            console.log(res.data);
+            setLoading(false);
+        } catch (error) {
+            console.error("토큰 체크 오류:", error);
+        }
+    };
+
     // 컴포넌트가 마운트될 때 한 번만 실행
     useEffect(() => {
-        const checkToken = async () => {
-            try {
-                const res = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
-                    {
-                        headers: {
-                            withCredentials: true,
-                        },
-                    }
-                );
-                console.log(res.data);
-                setLoading(false);
-            } catch (error) {
-                console.error("토큰 체크 오류:", error);
-            }
-        };
-
         checkToken();
         fetchProducts();
     }, []);

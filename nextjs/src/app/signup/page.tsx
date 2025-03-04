@@ -52,7 +52,7 @@ export default function SignupForm() {
 
         try {
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/signup`,
+                `${process.env.NEXT_PUBLIC_BASED_URL}/signup`,
                 {
                     ...formData,
                     password: password1, // password 추가
@@ -73,27 +73,28 @@ export default function SignupForm() {
         }
     };
 
-    useEffect(() => {
-        const checkToken = async () => {
-            try {
-                const res = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
-                    {
-                        headers: {
-                            withCredentials: true,
-                        },
-                    }
-                );
-                console.log(res.data);
-                if (res.data == "토큰이 이미 존재합니다.") {
-                    return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
+    // 토큰 유효성 검사
+    const checkToken = async () => {
+        try {
+            const res = await axios.get(
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
+                {
+                    headers: {
+                        withCredentials: true,
+                    },
                 }
-                setLoading(false);
-            } catch (error) {
-                console.error("토큰 체크 오류:", error);
+            );
+            console.log(res.data);
+            if (res.data == "토큰이 이미 존재합니다.") {
+                return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
             }
-        };
+            setLoading(false);
+        } catch (error) {
+            console.error("토큰 체크 오류:", error);
+        }
+    };
 
+    useEffect(() => {
         checkToken();
     }, []);
     return (

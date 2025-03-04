@@ -28,7 +28,7 @@ export async function GET(req: NextRequest) {
 
             // 토큰을 검증하기 위해 API 호출
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL_SERVER}/accessToken`,
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/accessToken`,
                 {
                     headers: {
                         Authorization: `Bearer ${accessToken.value}`,
@@ -38,9 +38,11 @@ export async function GET(req: NextRequest) {
             return new Response(JSON.stringify(response.data), { status: 200 });
         } catch (error) {
             console.log(error);
-            return new Response(`${error}`, {
-                status: 500,
-            });
+            const res = NextResponse.json(
+                "서버에 문제가 발생했습니다. 나중에 다시 시도해주세요."
+            );
+            res.cookies.delete("accessToken");
+            return res;
         }
     } else if (refreshToken) {
         try {
@@ -53,7 +55,7 @@ export async function GET(req: NextRequest) {
 
             // 토큰을 검증하기 위해 API 호출
             const response = await axios.get(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL_SERVER}/refreshToken`,
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/refreshToken`,
                 {
                     headers: {
                         Authorization: `Bearer ${refreshToken.value}`,
@@ -81,9 +83,11 @@ export async function GET(req: NextRequest) {
             return res;
         } catch (error) {
             console.log(error);
-            return new Response(`${error}`, {
-                status: 500,
-            });
+            const res = NextResponse.json(
+                "서버에 문제가 발생했습니다. 나중에 다시 시도해주세요."
+            );
+            res.cookies.delete("refreshToken");
+            return res;
         }
     }
 

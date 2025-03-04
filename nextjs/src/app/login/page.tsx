@@ -21,12 +21,13 @@ export default function LoginForm() {
         setPassword(e.target.value);
     };
 
+    // 로그인 폼 액션
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault(); // 폼 기본 제출 방지
 
         try {
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/login`,
+                `${process.env.NEXT_PUBLIC_BASED_URL}/login`,
                 {
                     username,
                     password,
@@ -50,27 +51,28 @@ export default function LoginForm() {
         }
     };
 
-    useEffect(() => {
-        const checkToken = async () => {
-            try {
-                const res = await axios.get(
-                    `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
-                    {
-                        headers: {
-                            withCredentials: true,
-                        },
-                    }
-                );
-                console.log(res.data);
-                if (res.data == "토큰이 이미 존재합니다.") {
-                    return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
+    //토큰 유효성 검사사
+    const checkToken = async () => {
+        try {
+            const res = await axios.get(
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
+                {
+                    headers: {
+                        withCredentials: true,
+                    },
                 }
-                setLoading(false);
-            } catch (error) {
-                console.error("토큰 체크 오류:", error);
+            );
+            console.log(res.data);
+            if (res.data == "토큰이 이미 존재합니다.") {
+                return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
             }
-        };
+            setLoading(false);
+        } catch (error) {
+            console.error("토큰 체크 오류:", error);
+        }
+    };
 
+    useEffect(() => {
         checkToken();
     }, []);
 
