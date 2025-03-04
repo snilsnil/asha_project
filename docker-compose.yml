@@ -11,9 +11,6 @@ services:
             - springboot
         networks:
             - ashabridge
-        # environment:
-        #     - NEXT_PUBLIC_BASED_URL=http://nextjs:3000
-        #     - NEXT_PUBLIC_SPRINGBOOT_URL='http://springboot:8080'
         ports:
             - "3000:3000"
 
@@ -28,11 +25,6 @@ services:
 
         networks:
             - ashabridge
-        # environment:
-        #     - SPRING_DATASOURCE_URL=jdbc:mysql://mysql:3306/asha?useSSL=false&useUnicode=true&allowPublicKeyRetrieval=true&serverTimezone=Asia/Seoul
-        #     - SPRING_DATASOURCE_USERNAME=root
-        #     - SPRING_DATASOURCE_PASSWORD=1234
-        #     - SPRING_DATA_MONGODB_URI=mongodb://root:1234@mongodb:27017/asha?authSource=admin&authMechanism=SCRAM-SHA-256
         ports:
             - "8080:8080" # 포트 매핑 (기본 Spring Boot 포트 8080)
 

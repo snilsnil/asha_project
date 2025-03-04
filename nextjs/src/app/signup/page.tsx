@@ -52,7 +52,7 @@ export default function SignupForm() {
 
         try {
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_BASED_URL}/signup`,
+                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/signup`,
                 {
                     ...formData,
                     password: password1, // password 추가
