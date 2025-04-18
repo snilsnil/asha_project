@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-html-link-for-pages */
 export default function Footer() {
   const linkClass =
     'block p-2 text-lg underline-offset-4 hover:text-black hover:underline md:inline-block md:text-sm dark:hover:text-neutral-300';
