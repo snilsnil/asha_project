@@ -52,17 +52,17 @@ export default function ProductDetailPage() {
                         </form>
 
                         <ul className='my-12 flex items-center flex-wrap justify-center gap-2 overflow-auto py-1 lg:mb-0'>
-                            <li className='h-20 w-20'>
+                            <li className='h-20 w-20 border-1 border-b-blue-700'>
                                 <button aria-label="Select product image" className='h-full w-full text-amber-100'>
                                     사 진 1
                                 </button>
                             </li>
-                            <li className='h-20 w-20'>
+                            <li className='h-20 w-20 border-2 border-b-blue-700'>
                                 <button aria-label="Select product image" className='h-full w-full text-amber-100'>
                                     사 진 2
                                 </button>
                             </li>
-                            <li className='h-20 w-20'>
+                            <li className='h-20 w-20 border-1 border-b-blue-700'>
                                 <button aria-label="Select product image" className='h-full w-full text-amber-100'>
                                     사 진 3
                                 </button>
@@ -121,7 +121,7 @@ export default function ProductDetailPage() {
                         </form>
                         <div
                             className="prose mx-auto max-w-6xl  text-black prose-headings:mt-8 prose-headings:font-semibold prose-headings:tracking-wide prose-headings:text-black prose-h1:text-5xl prose-h2:text-4xl prose-h3:text-3xl prose-h4:text-2xl prose-h5:text-xl prose-h6:text-lg prose-a:text-black prose-a:underline hover:prose-a:text-neutral-300 prose-strong:text-black prose-ol:mt-8 prose-ol:list-decimal prose-ol:pl-6 prose-ul:mt-8 prose-ul:list-disc prose-ul:pl-6  dark:prose-headings:text-white dark:prose-a:text-white dark:prose-strong:text-white mb-6 text-xl leading-tight dark:text-white">
-                            남은 시간 : 10시간 : 54븐 : 21초
+                            남은 시간 : 10시간 : 54 분 : 21 초
                         </div>
                         
                         <form
