@@ -37,7 +37,7 @@ export default function Header() {
                             Products
                         </Link>
                         <Link
-                            href="/users/:id"
+                            href="/users/id"
                             className="hover:text-white hover:underline"
                         >
                             MYPAGE

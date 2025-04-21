@@ -88,7 +88,7 @@ export default function SignupForm() {
     ) : (
         <form
             onSubmit={handleSubmit}
-            className="bg-neutral-900 text-white p-8 rounded-xl shadow max-w-md mx-auto mt-10 space-y-4 border border-neutral-800"
+            className="bg-neutral-900 mt-20 mb-40 text-white p-8 rounded-xl shadow max-w-md mx-auto pace-y-4 border border-neutral-800"
         >
             <h2 className="text-2xl font-bold mb-4 text-center">회원가입</h2>
             {message && (

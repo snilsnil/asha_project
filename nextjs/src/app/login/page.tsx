@@ -53,13 +53,13 @@ export default function LoginPage() {
     }, []);
 
     return loading ? (
-        <div className="min-h-screen bg-black text-white flex items-center justify-center px-4"></div>
+        <div className="min-h-screen bg-black text-white flex items-center justify-center px-4" ></div>
     ) : (
         <form
             onSubmit={handleSubmit}
-            className="bg-neutral-900 p-8 rounded-lg shadow-md w-full max-w-sm space-y-4"
+            className="bg-neutral-900 mb-30 mt-20 text-white p-8 rounded-xl shadow max-w-md mx-auto space-y-4 border border-neutral-800"
         >
-            <h2 className="text-xl font-bold text-center">로그인</h2>
+            <h2 className="text-xl font-bold  mb-4  text-center">로그인</h2>
             <input
                 type="text"
                 placeholder="ID"
