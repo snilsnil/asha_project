@@ -1,16 +1,12 @@
 "use client";
 
 import { useEffect, useState } from "react";
-
 import axios from "axios";
 
-/**
- * 회원가입 페이지
- */
 export default function SignupForm() {
     const [formData, setFormData] = useState({
         username: "",
-        password: "", // 이 필드는 사용하지 않음 (fetch에서만 추가)
+        password: "",
         email: "",
         nickname: "",
     });
@@ -19,7 +15,6 @@ export default function SignupForm() {
     const [password2, setPassword2] = useState("");
     const [message, setMessage] = useState("");
 
-    // 입력 필드 변경 핸들러
     const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { name, value } = e.target;
         setFormData((prev) => ({ ...prev, [name]: value }));
@@ -33,12 +28,10 @@ export default function SignupForm() {
         setPassword2(e.target.value);
     };
 
-    // 비밀번호 길이 검사
     const checkPassword = () => password1.length >= 8;
 
-    // 폼 제출 핸들러
     const handleSubmit = async (e: React.FormEvent) => {
-        e.preventDefault(); // 폼 기본 제출 방지
+        e.preventDefault();
 
         if (!checkPassword() || password1 !== password2) {
             setMessage("비밀번호 조건이 맞지 않습니다.");
@@ -55,17 +48,11 @@ export default function SignupForm() {
                 `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/signup`,
                 {
                     ...formData,
-                    password: password1, // password 추가
+                    password: password1,
                 }
             );
 
-            console.log(res);
-
             if (!res) throw new Error("Signup failed");
-
-            console.log("Signup successful!");
-
-            // 회원가입 성공 시 로그인 페이지로 이동
             window.location.href = "/login";
         } catch (error) {
             console.error("Error:", error);
@@ -73,7 +60,6 @@ export default function SignupForm() {
         }
     };
 
-    // 토큰 유효성 검사
     const checkToken = async () => {
         try {
             const res = await axios.get(
@@ -84,9 +70,8 @@ export default function SignupForm() {
                     },
                 }
             );
-            console.log(res.data);
             if (res.data == "토큰이 이미 존재합니다.") {
-                return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
+                return (window.location.href = "/");
             }
             setLoading(false);
         } catch (error) {
@@ -97,114 +82,107 @@ export default function SignupForm() {
     useEffect(() => {
         checkToken();
     }, []);
-    return (
-        <div>
-            {loading ? (
-                <h1>now loading....</h1>
-            ) : (
-                <form onSubmit={handleSubmit}>
-                    <fieldset style={{ width: "450px" }}>
-                        <legend>회원가입</legend>
-                        <span style={{ color: message ? "red" : "black" }}>
-                            {message}
-                        </span>
-                        <br />
 
-                        <label htmlFor="username">ID:</label>
-                        <input
-                            type="text"
-                            id="username"
-                            name="username"
-                            required
-                            onChange={handleChange}
-                        />
-                        <br />
-
-                        <label htmlFor="password1">비밀번호:</label>
-                        <input
-                            type="password"
-                            id="password1"
-                            required
-                            value={password1}
-                            onChange={handlePassword1Change}
-                        />
-                        <br />
-
-                        <label htmlFor="password2">비밀번호 확인:</label>
-                        <input
-                            type="password"
-                            id="password2"
-                            required
-                            value={password2}
-                            onChange={handlePassword2Change}
-                        />
-                        <br />
-                        <br />
-
-                        <ul>
-                            <li>
-                                <span
-                                    style={{
-                                        color:
-                                            password1 === ""
-                                                ? "white"
-                                                : checkPassword()
-                                                ? "green"
-                                                : "red",
-                                    }}
-                                >
-                                    {password1 === ""
-                                        ? "소문자, 숫자, 특수문자 포함해서 8~15자리 입력하세요."
-                                        : checkPassword()
-                                        ? "모든 조건이 충족되었습니다."
-                                        : "조건이 충족되지 못했습니다."}
-                                </span>
-                            </li>
-                            <li>
-                                <span
-                                    style={{
-                                        color:
-                                            password1 === "" || password2 === ""
-                                                ? "white"
-                                                : password1 === password2
-                                                ? "green"
-                                                : "red",
-                                    }}
-                                >
-                                    {password1 === "" || password2 === ""
-                                        ? "비밀번호를 입력하세요."
-                                        : password1 === password2
-                                        ? "비밀번호가 일치합니다."
-                                        : "비밀번호가 다릅니다."}
-                                </span>
-                            </li>
-                        </ul>
-
-                        <label htmlFor="nickname">닉네임:</label>
-                        <input
-                            type="text"
-                            id="nickname"
-                            name="nickname"
-                            required
-                            onChange={handleChange}
-                        />
-                        <br />
-
-                        <label htmlFor="email">이메일:</label>
-                        <input
-                            type="email"
-                            id="email"
-                            name="email"
-                            required
-                            onChange={handleChange}
-                        />
-
-                        <br />
-                        <br />
-                        <button type="submit">Signup</button>
-                    </fieldset>
-                </form>
+    return loading ? (
+        <div className="text-center py-12 text-xl text-white bg-black min-h-screen"></div>
+    ) : (
+        <form
+            onSubmit={handleSubmit}
+            className="bg-neutral-900 text-white p-8 rounded-xl shadow max-w-md mx-auto mt-10 space-y-4 border border-neutral-800"
+        >
+            <h2 className="text-2xl font-bold mb-4 text-center">회원가입</h2>
+            {message && (
+                <p className="text-red-500 text-sm text-center">{message}</p>
             )}
-        </div>
+
+            <div>
+                <label className="block mb-1 font-medium">아이디</label>
+                <input
+                    type="text"
+                    name="username"
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-neutral-700 bg-black text-white px-3 py-2 rounded-md"
+                />
+            </div>
+
+            <div>
+                <label className="block mb-1 font-medium">비밀번호</label>
+                <input
+                    type="password"
+                    value={password1}
+                    onChange={handlePassword1Change}
+                    required
+                    className="w-full border border-neutral-700 bg-black text-white px-3 py-2 rounded-md"
+                />
+            </div>
+
+            <div>
+                <label className="block mb-1 font-medium">비밀번호 확인</label>
+                <input
+                    type="password"
+                    value={password2}
+                    onChange={handlePassword2Change}
+                    required
+                    className="w-full border border-neutral-700 bg-black text-white px-3 py-2 rounded-md"
+                />
+            </div>
+
+            <div className="text-sm">
+                <p
+                    className={
+                        checkPassword() ? "text-green-400" : "text-red-500"
+                    }
+                >
+                    {password1 === ""
+                        ? "소문자, 숫자, 특수문자 포함 8자 이상"
+                        : checkPassword()
+                        ? "비밀번호 조건 충족"
+                        : "비밀번호가 너무 짧습니다."}
+                </p>
+                <p
+                    className={
+                        password1 === password2
+                            ? "text-green-400"
+                            : "text-red-500"
+                    }
+                >
+                    {password2 === ""
+                        ? "비밀번호 확인을 입력하세요."
+                        : password1 === password2
+                        ? "비밀번호가 일치합니다."
+                        : "비밀번호가 일치하지 않습니다."}
+                </p>
+            </div>
+
+            <div>
+                <label className="block mb-1 font-medium">닉네임</label>
+                <input
+                    type="text"
+                    name="nickname"
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-neutral-700 bg-black text-white px-3 py-2 rounded-md"
+                />
+            </div>
+
+            <div>
+                <label className="block mb-1 font-medium">이메일</label>
+                <input
+                    type="email"
+                    name="email"
+                    onChange={handleChange}
+                    required
+                    className="w-full border border-neutral-700 bg-black text-white px-3 py-2 rounded-md"
+                />
+            </div>
+
+            <button
+                type="submit"
+                className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-4 rounded-md"
+            >
+                회원가입
+            </button>
+        </form>
     );
 }

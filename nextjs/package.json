@@ -6,17 +6,20 @@
         "dev": "next dev -H 0.0.0.0",
         "build:docker": "env-cmd -f .env.docker next build",
         "start:docker": "env-cmd -f .env.docker next start -H 0.0.0.0",
-        "build:": "next build",
+        "build": "next build",
         "start": "next start -H 0.0.0.0",
         "lint": "next lint"
     },
     "dependencies": {
+        "@tailwindcss/postcss": "^4.1.4",
         "axios": "^1.7.9",
         "cookies-next": "^5.1.0",
         "js-cookie": "^3.0.5",
         "next": "15.1.7",
+        "postcss": "^8.5.3",
         "react": "^19.0.0",
-        "react-dom": "^19.0.0"
+        "react-dom": "^19.0.0",
+        "tailwindcss": "^4.1.4"
     },
     "devDependencies": {
         "@eslint/eslintrc": "^3",
