@@ -69,6 +69,7 @@ public class SecurityConfig {
 
                         CorsConfiguration configuration = new CorsConfiguration();
 
+                        System.out.println("CORS URL: " + corsUrl);
                         configuration.setAllowedOrigins(
                                 Collections.singletonList(corsUrl)); // 허용할
                         // 프론트엔드 주소
