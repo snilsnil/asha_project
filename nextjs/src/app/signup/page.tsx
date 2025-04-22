@@ -62,7 +62,7 @@ export default function SignupForm() {
 
     const checkToken = async () => {
         try {
-            const res = await axios.get(
+            await axios.get(
                 `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
                 {
                     headers: {
@@ -70,12 +70,9 @@ export default function SignupForm() {
                     },
                 }
             );
-            if (res.data == "토큰이 이미 존재합니다.") {
-                return (window.location.href = "/");
-            }
+            return (window.location.href = "/");
+        } catch {
             setLoading(false);
-        } catch (error) {
-            console.error("토큰 체크 오류:", error);
         }
     };
 

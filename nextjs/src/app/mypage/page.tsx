@@ -28,8 +28,7 @@ export default function MyPage() {
                 userId: res.data.userId,
             });
             setLoading(false);
-        } catch (error) {
-            console.error("토큰 체크 오류:", error);
+        } catch {
             return (window.location.href = "/");
         }
     };

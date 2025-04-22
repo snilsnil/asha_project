@@ -30,7 +30,7 @@ export async function GET(req: NextRequest) {
     }
 
     // 토큰이 없거나 유효하지 않으면 요청을 계속 진행
-    return new Response("토큰이 유효합니다.", { status: 200 });
+    return new Response("false", { status: 401 });
 }
 
 async function checkAccessToken(
