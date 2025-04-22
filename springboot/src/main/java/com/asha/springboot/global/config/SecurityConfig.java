@@ -2,6 +2,7 @@ package com.asha.springboot.global.config;
 
 import java.util.Collections;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -46,6 +47,9 @@ public class SecurityConfig {
     private final JWTGenerator jwtGenerator;
     private final UserRepository userRepository;
 
+    @Value("${spring.cors.url}") // application.properties에서 값을 주입
+    private String corsUrl;
+
     // AuthenticationManager가 인자로 받을 AuthenticationConfiguraion 객체 생성자 주입
     // public SecurityConfig(AuthenticationConfiguration
     // authenticationConfiguration, JWTGenerator jwtGenerator) {
@@ -55,6 +59,7 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+
         http
                 .csrf(AbstractHttpConfigurer::disable) // csrf 비활성화
                 .cors((corsCustomizer -> corsCustomizer.configurationSource(new CorsConfigurationSource() {
@@ -65,7 +70,7 @@ public class SecurityConfig {
                         CorsConfiguration configuration = new CorsConfiguration();
 
                         configuration.setAllowedOrigins(
-                                Collections.singletonList("http://localhost:3000")); // 허용할
+                                Collections.singletonList(corsUrl)); // 허용할
                         // 프론트엔드 주소
                         configuration.setAllowedMethods(Collections.singletonList("*")); // 허용할 HTTP 메소드
                         configuration.setAllowCredentials(true); // 쿠키 전달 허용
