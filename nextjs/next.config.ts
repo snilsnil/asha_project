@@ -5,7 +5,11 @@ const nextConfig: NextConfig = {
         remotePatterns: [
             {
                 protocol: "https",
-                hostname: "i.namu.wiki",
+                hostname: "**",
+            },
+            {
+                protocol: "http",
+                hostname: "**",
             },
         ],
     },
