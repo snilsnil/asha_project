@@ -15,15 +15,15 @@ import lombok.ToString;
 public class CommunityEntity {
 
     private String title;
-    private String writter;
-    private String descrition;
+    private String writer;
+    private String description;
 
     @Builder
     public CommunityEntity(
-            String title, String writter, String decription) {
+            String title, String writer, String description) {
         this.title = title;
-        this.writter = writter;
-        this.descrition = decription;
+        this.writer = writer;
+        this.description = description;
     }
 
 }

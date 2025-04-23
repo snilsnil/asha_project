@@ -6,31 +6,25 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/login`,
-                { username, password },
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                    withCredentials: true, // 쿠키 포함
-                }
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/login`,
+                { username, password }
             );
-            if (res.status === 200) window.location.href = "/";
-        } catch (error) {
-            console.error("로그인 실패", error);
+            window.location.href = "/";
+        } catch {
+            setMessage("아이디 또는 비밀번호가 틀립니다.");
         }
     };
 
     //토큰 유효성 검사사
     const checkToken = async () => {
         try {
-            const res = await axios.get(
+            await axios.get(
                 `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
                 {
                     headers: {
@@ -38,13 +32,9 @@ export default function LoginPage() {
                     },
                 }
             );
-            console.log(res.data);
-            if (res.data == "토큰이 이미 존재합니다.") {
-                return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
-            }
+            return (window.location.href = "/"); // 서버에서 받은 Location으로 리다이렉트
+        } catch {
             setLoading(false);
-        } catch (error) {
-            console.error("토큰 체크 오류:", error);
         }
     };
 
@@ -57,9 +47,13 @@ export default function LoginPage() {
     ) : (
         <form
             onSubmit={handleSubmit}
-            className="bg-neutral-900 p-8 rounded-lg shadow-md w-full max-w-sm space-y-4"
+            className="bg-neutral-900 mb-30 mt-20 text-white p-8 rounded-xl shadow max-w-md mx-auto space-y-4 border border-neutral-800"
         >
-            <h2 className="text-xl font-bold text-center">로그인</h2>
+            <h2 className="text-xl font-bold  mb-4  text-center">로그인</h2>
+            {message && (
+                <p className="text-red-500 text-sm text-center">{message}</p>
+            )}
+
             <input
                 type="text"
                 placeholder="ID"

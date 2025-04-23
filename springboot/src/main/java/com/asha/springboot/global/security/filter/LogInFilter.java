@@ -102,6 +102,6 @@ public class LogInFilter extends UsernamePasswordAuthenticationFilter {
                         AuthenticationException failed) {
 
                 // 로그인 실패시 403 응답 코드 반환
-                response.setStatus(404);
+                response.setStatus(403);
         }
 }

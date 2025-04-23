@@ -45,15 +45,18 @@ export default function SignupForm() {
 
         try {
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/signup`,
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/signup`,
                 {
                     ...formData,
                     password: password1,
                 }
             );
 
-            if (!res) throw new Error("Signup failed");
-            window.location.href = "/login";
+            if (res.data === "success") {
+                return (window.location.href = "/login");
+            } else {
+                setMessage(res.data);
+            }
         } catch (error) {
             console.error("Error:", error);
             setMessage("회원가입 중 오류가 발생했습니다.");
@@ -62,7 +65,7 @@ export default function SignupForm() {
 
     const checkToken = async () => {
         try {
-            const res = await axios.get(
+            await axios.get(
                 `${process.env.NEXT_PUBLIC_BASED_URL}/auth/checkToken`,
                 {
                     headers: {
@@ -70,12 +73,9 @@ export default function SignupForm() {
                     },
                 }
             );
-            if (res.data == "토큰이 이미 존재합니다.") {
-                return (window.location.href = "/");
-            }
+            return (window.location.href = "/");
+        } catch {
             setLoading(false);
-        } catch (error) {
-            console.error("토큰 체크 오류:", error);
         }
     };
 
@@ -88,7 +88,7 @@ export default function SignupForm() {
     ) : (
         <form
             onSubmit={handleSubmit}
-            className="bg-neutral-900 text-white p-8 rounded-xl shadow max-w-md mx-auto mt-10 space-y-4 border border-neutral-800"
+            className="bg-neutral-900 mt-20 mb-40 text-white p-8 rounded-xl shadow max-w-md mx-auto space-y-4 border border-neutral-800"
         >
             <h2 className="text-2xl font-bold mb-4 text-center">회원가입</h2>
             {message && (
