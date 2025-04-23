@@ -1,7 +1,6 @@
 "use client";
 
 import axios from "axios";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function MyPage() {
@@ -56,13 +55,12 @@ export default function MyPage() {
                 {userData.username}의 마이페이지입니다.
             </h2>
             <div className="flex justify-center">
-                <Link
-                    href="/auth/logout"
+                <button
                     className="text-xl font-bold mb-4 text-center text-white hover:underline"
                     onClick={logout}
                 >
                     로그아웃
-                </Link>
+                </button>
             </div>
         </div>
     );
