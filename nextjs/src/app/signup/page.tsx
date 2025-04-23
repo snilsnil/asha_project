@@ -45,15 +45,18 @@ export default function SignupForm() {
 
         try {
             const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/signup`,
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/signup`,
                 {
                     ...formData,
                     password: password1,
                 }
             );
 
-            if (!res) throw new Error("Signup failed");
-            window.location.href = "/login";
+            if (res.data === "success") {
+                return (window.location.href = "/login");
+            } else {
+                setMessage(res.data);
+            }
         } catch (error) {
             console.error("Error:", error);
             setMessage("회원가입 중 오류가 발생했습니다.");

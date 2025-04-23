@@ -6,24 +6,18 @@ export default function LoginPage() {
     const [loading, setLoading] = useState(true);
     const [username, setUsername] = useState("");
     const [password, setPassword] = useState("");
+    const [message, setMessage] = useState("");
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         try {
-            const res = await axios.post(
-                `${process.env.NEXT_PUBLIC_SPRINGBOOT_URL}/login`,
-                { username, password },
-                {
-                    headers: {
-                        "Content-Type": "multipart/form-data",
-                        "Access-Control-Allow-Origin": "*",
-                    },
-                    withCredentials: true, // 쿠키 포함
-                }
+            await axios.post(
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/login`,
+                { username, password }
             );
-            if (res.status === 200) window.location.href = "/";
-        } catch (error) {
-            console.error("로그인 실패", error);
+            window.location.href = "/";
+        } catch {
+            setMessage("아이디 또는 비밀번호가 틀립니다.");
         }
     };
 
@@ -56,6 +50,10 @@ export default function LoginPage() {
             className="bg-neutral-900 mb-30 mt-20 text-white p-8 rounded-xl shadow max-w-md mx-auto space-y-4 border border-neutral-800"
         >
             <h2 className="text-xl font-bold  mb-4  text-center">로그인</h2>
+            {message && (
+                <p className="text-red-500 text-sm text-center">{message}</p>
+            )}
+
             <input
                 type="text"
                 placeholder="ID"

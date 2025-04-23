@@ -1,6 +1,7 @@
 "use client";
 
 import axios from "axios";
+import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export default function MyPage() {
@@ -10,6 +11,17 @@ export default function MyPage() {
         username: "",
         userId: "",
     });
+
+    const logout = async (e: React.FormEvent) => {
+        e.preventDefault();
+        try {
+            await axios.get(
+                `${process.env.NEXT_PUBLIC_BASED_URL}/auth/logout`,
+                {}
+            );
+            window.location.href = "/";
+        } catch {}
+    };
 
     const checkToken = async () => {
         try {
@@ -43,6 +55,15 @@ export default function MyPage() {
             <h2 className="text-xl font-bold  mb-4  text-center text-white">
                 {userData.username}의 마이페이지입니다.
             </h2>
+            <div className="flex justify-center">
+                <Link
+                    href="/auth/logout"
+                    className="text-xl font-bold mb-4 text-center text-white hover:underline"
+                    onClick={logout}
+                >
+                    로그아웃
+                </Link>
+            </div>
         </div>
     );
 }

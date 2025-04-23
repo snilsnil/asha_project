@@ -44,17 +44,17 @@ public class UserService {
     @Transactional // 트랜잭션 처리
     public String createUser(UserSignUpDTO userSignUpDTO) {
         try {
-            boolean checkusername = userRepository.existsByUsername(userSignUpDTO.getUsername()); // username 중복 확인
+            boolean checkUsername = userRepository.existsByUsername(userSignUpDTO.getUsername()); // username 중복 확인
             boolean checkEmail = userInfoRepository.existsByEmail(userSignUpDTO.getEmail()); // email 중복 확인
+            boolean checkNickname = userNickNameRepository.existsByNickname(userSignUpDTO.getNickname()); // nickname 중복
+                                                                                                          // 확인
 
-            System.out.println("checkusername: " + checkusername);
-
-            if (checkusername && checkEmail) {
-                throw new UserAlreadyExistsException("ID와 이메일이 존재합니다.");
-            } else if (checkusername) {
+            if (checkUsername) {
                 throw new UserAlreadyExistsException("ID가 존재합니다.");
             } else if (checkEmail) {
                 throw new UserAlreadyExistsException("이메일이 존재합니다.");
+            } else if (checkNickname) {
+                throw new UserAlreadyExistsException("닉네임이 존재합니다.");
             }
 
             // 비밀번호 암호화
