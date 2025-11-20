@@ -28,18 +28,50 @@ export default function SignupForm() {
         setPassword2(e.target.value);
     };
 
-    const checkPassword = () => password1.length >= 8;
+    const checkPassword = () => {
+        const errors: string[] = [];
+
+        if (!checkPasswordLength()) {
+            errors.push("비밀번호는 8자 이상이어야 합니다.");
+        }
+        if (!checkPasswordHasLower()) {
+            errors.push("소문자가 포함되어 있지 않습니다.");
+        }
+        if (!checkPasswordHasNumber()) {
+            errors.push("숫자가 포함되어 있지 않습니다.");
+        }
+        if (!checkPasswordHasSpecial()) {
+            errors.push("특수문자가 포함되어 있지 않습니다.");
+        }
+
+        return errors.length > 0 ? errors.join(" ") : "";
+    };
+
+    const checkPasswordLength = () => password1.length >= 8;
+
+    const checkPasswordHasLower = () => /[a-z]/.test(password1);
+
+    const checkPasswordHasNumber = () => /\d/.test(password1);
+
+    const checkPasswordHasSpecial = () =>
+        /[!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?`~]/.test(password1);
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
-        if (!checkPassword() || password1 !== password2) {
-            setMessage("비밀번호 조건이 맞지 않습니다.");
+        const withSpace: string[] = [];
+        if (/\s/.test(formData.username)) withSpace.push("아이디");
+        if (/\s/.test(password1)) withSpace.push("비밀번호");
+        if (/\s/.test(password2)) withSpace.push("비밀번호 확인");
+        if (/\s/.test(formData.email)) withSpace.push("이메일");
+
+        if (withSpace.length > 0) {
+            setMessage(`${withSpace}에 공백이 포함되어 있습니다.`);
             return;
         }
 
-        if (!formData.username || !formData.nickname || !formData.email) {
-            setMessage("빈칸이 존재합니다.");
+        if (checkPassword() !== "" || password1 !== password2) {
+            setMessage("비밀번호 조건이 맞지 않습니다.");
             return;
         }
 
@@ -82,6 +114,8 @@ export default function SignupForm() {
     useEffect(() => {
         checkToken();
     }, []);
+
+    const passMsg = checkPassword();
 
     return loading ? (
         <div className="text-center py-12 text-xl text-white bg-black min-h-screen"></div>
@@ -131,18 +165,24 @@ export default function SignupForm() {
             <div className="text-sm">
                 <p
                     className={
-                        checkPassword() ? "text-green-400" : "text-red-500"
+                        password1 === ""
+                            ? "text-red-500"
+                            : passMsg === ""
+                            ? "text-green-400"
+                            : "text-red-500"
                     }
                 >
                     {password1 === ""
                         ? "소문자, 숫자, 특수문자 포함 8자 이상"
-                        : checkPassword()
+                        : passMsg === ""
                         ? "비밀번호 조건 충족"
-                        : "비밀번호가 너무 짧습니다."}
+                        : passMsg}
                 </p>
                 <p
                     className={
-                        password1 === password2
+                        password2 === ""
+                            ? "text-red-500"
+                            : password1 === password2
                             ? "text-green-400"
                             : "text-red-500"
                     }
