@@ -14,37 +14,20 @@ export async function GET(req: NextRequest) {
     const refreshToken = req.cookies.get("refreshToken"); // 쿠키의 이름이 'refreshToken'일 경우
     const accessToken = req.cookies.get("accessToken"); // 쿠키의 이름이 'refreshToken'일 경우
 
-    const referer = req.headers.get("referer") ?? "";
-    const baseUrlLength = process.env.NEXT_PUBLIC_BASED_URL?.length || 0;
-    const currentPath = referer.substring(baseUrlLength);
-
     if (accessToken != undefined) {
-        const resAccessToken = await checkAccessToken(
-            accessToken.value,
-            currentPath
-        );
+        const resAccessToken = await checkAccessToken(accessToken.value);
 
         return new Response(JSON.stringify(resAccessToken), { status: 200 });
     } else if (refreshToken) {
-        return checkRefreshToken(refreshToken, currentPath);
+        return checkRefreshToken(refreshToken);
     }
 
     // 토큰이 없거나 유효하지 않으면 요청을 계속 진행
     return new Response("false", { status: 401 });
 }
 
-async function checkAccessToken(
-    accessToken: string | RequestCookie,
-    currentPath: string
-) {
+async function checkAccessToken(accessToken: string | RequestCookie) {
     try {
-        if (currentPath === "/login" || currentPath === "/signup") {
-            const result = "토큰이 이미 존재합니다.";
-            return new Response(JSON.stringify(result), {
-                status: 200,
-            });
-        }
-
         // 토큰을 검증하기 위해 API 호출
         const response = await axios.get(
             `${process.env.NEXT_PUBLIC_SPRINGBOOT_SERVER_URL}/accessToken`,
@@ -65,18 +48,8 @@ async function checkAccessToken(
     }
 }
 
-async function checkRefreshToken(
-    refreshToken: RequestCookie,
-    currentPath: string
-) {
+async function checkRefreshToken(refreshToken: RequestCookie) {
     try {
-        if (currentPath === "/login" || currentPath === "/signup") {
-            const result = "토큰이 이미 존재합니다.";
-            return new Response(JSON.stringify(result), {
-                status: 200,
-            });
-        }
-
         // 토큰을 검증하기 위해 API 호출
         const response = await axios.get(
             `${process.env.NEXT_PUBLIC_SPRINGBOOT_SERVER_URL}/refreshToken`,
@@ -106,15 +79,16 @@ async function checkRefreshToken(
         });
 
         // ✅ 새로 발급된 AccessToken으로 checkAccessToken 호출
-        const accessTokenData = await checkAccessToken(
-            accessToken,
-            currentPath
-        );
+        const accessTokenData = await checkAccessToken(accessToken);
 
         // ✅ checkAccessToken 결과와 함께 응답 전송
 
+        console.log(accessToken);
+
         const finalResponse = NextResponse.json(accessTokenData);
-        finalResponse.cookies.set("accessToken", accessToken, {
+        finalResponse.cookies.set({
+            name: "accessToken",
+            value: accessToken,
             httpOnly: true,
             path: "/",
             maxAge: 60 * 25, // 25분
