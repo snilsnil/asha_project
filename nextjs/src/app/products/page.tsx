@@ -33,36 +33,38 @@ export default function ProductsPage() {
             console.log(data);
             setProducts(data as Product[]);
             setLoading(false);
-            return data;
-        } catch (error) {
-            console.error(error);
-        }
-    };
+            } catch (error) {
+                console.error(error);
+                setLoading(false);
+            }
+            };
 
-    useEffect(() => {
-        getProducts();
-    }, []);
+            useEffect(() => {
+            getProducts();
+            }, []);
 
-    return loading ? (
-        <div className="min-h-screen  text-white flex  px-4"></div>
-    ) : (
-        <div className="min-h-screen  text-white flex  px-4">
-            {products ? (
+            return loading ? (
+            <div className="min-h-screen text-white flex px-4"></div>
+            ) : (
+            <div className="min-h-screen text-white flex px-4">
+                {products ? (
                 <ul>
                     {products.map((product) => (
-                        <li key={product.productId}>
-                            {product.productId} - {product.productName} -{" "}
-                            {product.description} - {"["}
-                            {product.categories
-                                .map((c) => `${c.categoryName}`)
-                                .join(", ")}
-                            {"]"}
-                        </li>
+                    <li key={product.productId}>
+                        <a href={`/products/${product.productId}`}>
+                        {product.productId} - {product.productName} -{" "}
+                        {product.description} - {"["}
+                        {product.categories
+                            .map((c) => `${c.categoryName}`)
+                            .join(", ")}
+                        {"]"}
+                        </a>
+                    </li>
                     ))}
                 </ul>
-            ) : (
+                ) : (
                 <>로딩중</>
-            )}
-        </div>
-    );
-}
+                )}
+            </div>
+            );
+        }
