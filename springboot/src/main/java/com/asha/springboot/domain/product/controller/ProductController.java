@@ -29,7 +29,7 @@ public class ProductController {
 
     // 특정 상품 조회
     @GetMapping("/{productId}")
-    public ResponseEntity<ProductEntity> getProductById(@PathVariable Long productId) {
+    public ResponseEntity<ProductEntity> getProductById(@PathVariable("productId") Long productId) {
         Optional<ProductEntity> product = productService.getProductById(productId);
         return product.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).build());
@@ -44,7 +44,7 @@ public class ProductController {
 
     // 상품 수정
     @PutMapping("/{productId}")
-    public ResponseEntity<ProductEntity> updateProduct(@PathVariable Long productId,
+    public ResponseEntity<ProductEntity> updateProduct(@PathVariable("productId") Long productId,
             @RequestBody ProductEntity updatedProduct) {
         try {
             ProductEntity product = productService.updateProduct(productId, updatedProduct);
@@ -56,7 +56,7 @@ public class ProductController {
 
     // 상품 삭제
     @DeleteMapping("/{productId}")
-    public ResponseEntity<Void> deleteProduct(@PathVariable Long productId) {
+    public ResponseEntity<Void> deleteProduct(@PathVariable("productId") Long productId) {
         productService.deleteProduct(productId);
         return ResponseEntity.noContent().build();
     }
