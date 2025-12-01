@@ -87,7 +87,7 @@ public class SecurityConfig {
                 .sessionManagement(sess -> sess
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/login", "/signup", "/products")
+                        .requestMatchers("/login", "/signup", "/products/**")
                         .permitAll() // /signup 엔드포인트에 대해 시큐리티 필터
                                      // 비활성화
                         .anyRequest().authenticated())

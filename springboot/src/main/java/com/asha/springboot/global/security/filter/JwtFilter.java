@@ -88,7 +88,7 @@ public class JwtFilter extends OncePerRequestFilter {
     }
 
     private Boolean checkPath(String path) {
-        if ("/signup".equals(path) || "/login".equals(path) || "/products".equals(path)) {
+        if ("/signup".equals(path) || "/login".equals(path) || path.startsWith("/products")) {
             return true;
         }
         return false;

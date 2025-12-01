@@ -78,7 +78,8 @@ public class ProductTest {
         product = ProductEntity.builder()
                 .productName("Nintendo Switch 2")
                 .description("Nintendo Switch2 Console")
-                .imageUrl("https://www.nintento.co.kr/switch.index.php")
+                .imageUrl(
+                        "https://images.ctfassets.net/sjvy5j5nlcjk/7JmQsmrJyNFGc8kJTz6bdL/02a95a144cadc623c5b3c346b6056ece/%C3%AC__2_%C3%AB__%C3%AC__.jpg?w=1400&fm=webp")
                 .categories(List.of(categoryEntity1, categoryEntity2))
                 .build();
 
